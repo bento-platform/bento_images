@@ -30,25 +30,25 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up image metadata for beacon-alpine
-        id: meta-beacon-alpine
+      - name: Set up image metadata for service-registry-alpine
+        id: meta-service-registry-alpine
         uses: docker/metadata-action@v4
         with:
           images: |
             ghcr.io/bento-platform/bento_image
           tags: |
-            type=raw,value=beacon-alpine-latest
-            type=raw,value=beacon-alpine-{{date 'YYYY.MM.DD'}}
-            type=raw,value=beacon-alpine-{{date 'YYYY.MM.DD.HHmm'}}
+            type=raw,value=service-registry-alpine-latest
+            type=raw,value=service-registry-alpine-{{date 'YYYY.MM.DD'}}
+            type=raw,value=service-registry-alpine-{{date 'YYYY.MM.DD.HHmm'}}
 
-      - name: Build and push beacon-alpine image
+      - name: Build and push service-registry-alpine image
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: ./spec/beacon/alpine.Dockerfile
+          file: ./spec/service-registry/alpine.Dockerfile
           # build-args: |
           #   VAR1=${{ env.VAR1 }}
-          tags: ${{ steps.meta-beacon-alpine.outputs.tags }}
-          labels: ${{ steps.meta-beacon-alpine.outputs.labels }}
+          tags: ${{ steps.meta-service-registry-alpine.outputs.tags }}
+          labels: ${{ steps.meta-service-registry-alpine.outputs.labels }}
           platforms: linux/amd64,linux/arm64
 
