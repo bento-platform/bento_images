@@ -5,7 +5,7 @@ RUN mkdir /workspace
 WORKDIR /workspace
 
 # - custom waitress wsgi "wrapper"
-ADD ./waitress_wrapper.py .
+ADD ./spec/beacon/waitress_wrapper.py .
 
 # TODO: implement ARGS
 RUN git clone https://github.com/bento-platform/bento_beacon --depth 1 -b v0.1.0
