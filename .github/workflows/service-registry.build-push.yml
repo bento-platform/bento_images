@@ -1,4 +1,4 @@
-name: Build and push Bento Beacon image
+name: Build and push Bento Service-Registry image
 on:
   workflow_dispatch:
 
