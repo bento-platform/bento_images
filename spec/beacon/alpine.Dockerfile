@@ -15,9 +15,6 @@ WORKDIR /workspace/bento_beacon
 RUN pip install -r requirements.txt
 
 # # compile to C intermediary file, then binary
-# TEMP patch --
-RUN pip install orderedset
-# --
 WORKDIR /workspace
 RUN python3 -m nuitka --onefile --follow-imports waitress_wrapper.py
 # outputs ./app.bin

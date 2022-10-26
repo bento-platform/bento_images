@@ -1,0 +1,55 @@
+name: Build and push Bento Drop-Box image
+on:
+  workflow_dispatch:
+
+# TODO: implement
+# env:
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up image metadata for drop-box-alpine
+        id: meta-drop-box-alpine
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/bento-platform/bento_image
+          tags: |
+            type=raw,value=drop-box-alpine-latest
+            type=raw,value=drop-box-alpine-{{date 'YYYY.MM.DD'}}
+            type=raw,value=drop-box-alpine-{{date 'YYYY.MM.DD.HHmm'}}
+
+      - name: Build and push drop-box-alpine image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: ./spec/drop-box/alpine.Dockerfile
+          # build-args: |
+          #   VAR1=${{ env.VAR1 }}
+          tags: ${{ steps.meta-drop-box-alpine.outputs.tags }}
+          labels: ${{ steps.meta-drop-box-alpine.outputs.labels }}
+          platforms: linux/arm64
+          #,linux/amd64
+
