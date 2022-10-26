@@ -4,20 +4,26 @@ FROM ghcr.io/bento-platform/bento_base_image:nuitka-alpine-latest as builder
 RUN mkdir /workspace
 WORKDIR /workspace
 
-# - custom waitress wsgi "wrapper"
-ADD ./spec/service-registry/waitress_wrapper.py .
-
 # TODO: implement ARGS
 RUN git clone https://github.com/bento-platform/bento_service_registry --depth 1 -b v0.5.1
 WORKDIR /workspace/bento_service_registry
+
+# - custom waitress wsgi "wrapper"
+ADD ./waitress_wrapper.py /workspace/bento_service_registry/
 
 # install bento-beacon dependencies
 RUN pip install -r requirements.txt
 
 # # compile to C intermediary file, then binary
 WORKDIR /workspace
-RUN python3 -m nuitka --onefile --follow-imports waitress_wrapper.py
-# outputs ./app.bin
+RUN pwd && ls -lah
+RUN python3 -m nuitka \
+    --include-package-data=bento_lib \
+    --include-package-data=bento_service_registry \
+    --onefile --follow-imports \
+    -o /workspace/service_registry.bin \
+    /workspace/bento_service_registry/waitress_wrapper.py
+    # --include-data-files=./bento_service_registry/bento_service_registry/package.cfg=./bento_service_registry/bento_service_registry/ \
 
 
 
@@ -25,7 +31,8 @@ RUN python3 -m nuitka --onefile --follow-imports waitress_wrapper.py
 FROM docker.io/alpine:latest as deployment
 
 # Copy pre-built executables
-COPY --from=builder /workspace/waitress_wrapper.bin /waitress_wrapper.bin
-RUN chmod 700 /waitress_wrapper.bin
+COPY --from=builder /workspace/service_registry.bin /service_registry.bin
 
-ENTRYPOINT [ "/waitress_wrapper.bin" ]
+RUN chmod 700 /service_registry.bin
+
+CMD [ "/service_registry.bin" ]

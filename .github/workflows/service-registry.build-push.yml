@@ -46,6 +46,7 @@ jobs:
         with:
           push: true
           file: ./spec/service-registry/alpine.Dockerfile
+          context: ./spec/service-registry
           # build-args: |
           #   VAR1=${{ env.VAR1 }}
           tags: ${{ steps.meta-service-registry-alpine.outputs.tags }}
