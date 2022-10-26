@@ -46,6 +46,7 @@ jobs:
         with:
           push: true
           file: ./spec/drop-box/alpine.Dockerfile
+          context: ./spec/drop-box
           # build-args: |
           #   VAR1=${{ env.VAR1 }}
           tags: ${{ steps.meta-drop-box-alpine.outputs.tags }}
