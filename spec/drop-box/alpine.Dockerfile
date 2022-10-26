@@ -9,7 +9,7 @@ RUN git clone https://github.com/bento-platform/bento_drop_box_service --depth 1
 WORKDIR /workspace/bento_drop_box_service
 
 # - custom waitress wsgi "wrapper"
-ADD ./waitress_wrapper.py /workspace/bento_drop_box_service/
+ADD ./spec/drop-box/waitress_wrapper.py /workspace/bento_drop_box_service/
 
 # install bento-beacon dependencies
 RUN pip install -r requirements.txt
