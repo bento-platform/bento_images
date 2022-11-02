@@ -11,8 +11,8 @@ WORKDIR /workspace/bento_drop_box_service
 # - custom waitress wsgi "wrapper"
 ADD ./waitress_wrapper.py /workspace/bento_drop_box_service/
 
-# install bento-beacon dependencies
-# RUN pip install --upgrade pip
+# install drop-box dependencies
+RUN pip install --upgrade pip
 RUN apk add --no-cache \
         libressl-dev \
         musl-dev \
