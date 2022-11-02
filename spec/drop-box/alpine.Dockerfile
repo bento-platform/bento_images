@@ -13,6 +13,10 @@ ADD ./waitress_wrapper.py /workspace/bento_drop_box_service/
 
 # install bento-beacon dependencies
 # RUN pip install --upgrade pip
+RUN apk add --no-cache \
+        libressl-dev \
+        musl-dev \
+        libffi-dev
 RUN pip install -r /workspace/bento_drop_box_service/requirements.txt
 
 # # compile to C intermediary file, then binary
