@@ -11,7 +11,7 @@ WORKDIR /workspace/bento_service_registry
 # - custom waitress wsgi "wrapper"
 ADD ./waitress_wrapper.py /workspace/bento_service_registry/
 
-# install bento-beacon dependencies
+# install service-registry dependencies
 RUN pip install -r requirements.txt
 
 # # compile to C intermediary file, then binary
