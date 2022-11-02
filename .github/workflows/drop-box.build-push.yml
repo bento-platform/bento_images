@@ -51,6 +51,6 @@ jobs:
           #   VAR1=${{ env.VAR1 }}
           tags: ${{ steps.meta-drop-box-alpine.outputs.tags }}
           labels: ${{ steps.meta-drop-box-alpine.outputs.labels }}
-          platforms: linux/arm64
-          #,linux/amd64
+          platforms: linux/amd64
+          #,linux/arm64
 
