@@ -5,7 +5,8 @@ RUN mkdir /workspace
 WORKDIR /workspace
 
 # TODO: implement ARGS
-RUN git clone https://github.com/bento-platform/bento_service_registry --depth 1 -b v0.6.0
+ARG TAG
+RUN git clone https://github.com/bento-platform/bento_service_registry --depth 1 -b $TAG
 WORKDIR /workspace/bento_service_registry
 
 # - custom waitress wsgi "wrapper"

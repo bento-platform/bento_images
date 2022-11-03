@@ -2,8 +2,8 @@ name: Build and push Bento Service-Registry image
 on:
   workflow_dispatch:
 
-# TODO: implement
-# env:
+env:
+  TAG: v0.6.0
 
 jobs:
   build-push:
@@ -47,8 +47,8 @@ jobs:
           push: true
           file: ./spec/service-registry/alpine.Dockerfile
           context: ./spec/service-registry
-          # build-args: |
-          #   VAR1=${{ env.VAR1 }}
+          build-args: |
+            TAG=${{ env.TAG }}
           tags: ${{ steps.meta-service-registry-alpine.outputs.tags }}
           labels: ${{ steps.meta-service-registry-alpine.outputs.labels }}
           platforms: linux/arm64,linux/amd64
