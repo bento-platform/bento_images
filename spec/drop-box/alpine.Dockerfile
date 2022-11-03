@@ -17,6 +17,11 @@ RUN apk add --no-cache \
         libressl-dev \
         musl-dev \
         libffi-dev
+
+# TEMP testing cryptography build patch
+# (use latest version ?)
+RUN sed -i "s/cryptography==3.4.7/cryptography/" /workspace/bento_drop_box_service/requirements.txt
+#
 RUN pip install -r /workspace/bento_drop_box_service/requirements.txt
 
 # # compile to C intermediary file, then binary
