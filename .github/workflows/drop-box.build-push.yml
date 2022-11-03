@@ -2,12 +2,13 @@ name: Build and push Bento Drop-Box image
 on:
   workflow_dispatch:
 
-# TODO: implement
-# env:
+env:
+  TAG: v0.5.0
 
 jobs:
   build-push:
     runs-on: ubuntu-latest
+    timeout-minutes: 600 # 10hr limit?
 
     permissions:
       contents: read
@@ -37,9 +38,9 @@ jobs:
           images: |
             ghcr.io/bento-platform/bento_image
           tags: |
-            type=raw,value=drop-box-alpine-latest
-            type=raw,value=drop-box-alpine-{{date 'YYYY.MM.DD'}}
-            type=raw,value=drop-box-alpine-{{date 'YYYY.MM.DD.HHmm'}}
+            type=raw,value=drop-box-${{ env.TAG }}-alpine-latest
+            type=raw,value=drop-box-${{ env.TAG }}-alpine-{{date 'YYYY.MM.DD'}}
+            type=raw,value=drop-box-${{ env.TAG }}-alpine-{{date 'YYYY.MM.DD.HHmm'}}
 
       - name: Build and push drop-box-alpine image
         uses: docker/build-push-action@v3
@@ -47,10 +48,9 @@ jobs:
           push: true
           file: ./spec/drop-box/alpine.Dockerfile
           context: ./spec/drop-box
-          # build-args: |
-          #   VAR1=${{ env.VAR1 }}
+          build-args: |
+            TAG=${{ env.TAG }}
           tags: ${{ steps.meta-drop-box-alpine.outputs.tags }}
           labels: ${{ steps.meta-drop-box-alpine.outputs.labels }}
-          platforms: linux/amd64
-          #,linux/arm64
+          platforms: linux/amd64,linux/arm64
 

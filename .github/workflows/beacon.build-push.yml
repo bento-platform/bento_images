@@ -2,12 +2,13 @@ name: Build and push Bento Beacon image
 on:
   workflow_dispatch:
 
-# TODO: implement
-# env:
+env:
+  TAG: v0.1.0
 
 jobs:
   build-push:
     runs-on: ubuntu-latest
+    timeout-minutes: 600 # 10hr limit?
 
     permissions:
       contents: read
@@ -37,17 +38,17 @@ jobs:
           images: |
             ghcr.io/bento-platform/bento_image
           tags: |
-            type=raw,value=beacon-alpine-latest
-            type=raw,value=beacon-alpine-{{date 'YYYY.MM.DD'}}
-            type=raw,value=beacon-alpine-{{date 'YYYY.MM.DD.HHmm'}}
+            type=raw,value=beacon-${{ env.TAG }}-alpine-latest
+            type=raw,value=beacon-${{ env.TAG }}-alpine-{{date 'YYYY.MM.DD'}}
+            type=raw,value=beacon-${{ env.TAG }}-alpine-{{date 'YYYY.MM.DD.HHmm'}}
 
       - name: Build and push beacon-alpine image
         uses: docker/build-push-action@v3
         with:
           push: true
           file: ./spec/beacon/alpine.Dockerfile
-          # build-args: |
-          #   VAR1=${{ env.VAR1 }}
+          build-args: |
+            TAG=${{ env.TAG }}
           tags: ${{ steps.meta-beacon-alpine.outputs.tags }}
           labels: ${{ steps.meta-beacon-alpine.outputs.labels }}
           platforms: linux/amd64,linux/arm64

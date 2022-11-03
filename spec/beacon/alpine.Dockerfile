@@ -8,7 +8,8 @@ WORKDIR /workspace
 ADD ./spec/beacon/waitress_wrapper.py .
 
 # TODO: implement ARGS
-RUN git clone https://github.com/bento-platform/bento_beacon --depth 1 -b v0.1.0
+ARG TAG
+RUN git clone https://github.com/bento-platform/bento_beacon --depth 1 -b $TAG
 WORKDIR /workspace/bento_beacon
 
 # install bento-beacon dependencies

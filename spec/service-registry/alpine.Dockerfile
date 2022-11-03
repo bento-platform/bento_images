@@ -4,7 +4,6 @@ FROM ghcr.io/bento-platform/bento_base_image:nuitka-alpine-latest as builder
 RUN mkdir /workspace
 WORKDIR /workspace
 
-# TODO: implement ARGS
 ARG TAG
 RUN git clone https://github.com/bento-platform/bento_service_registry --depth 1 -b $TAG
 WORKDIR /workspace/bento_service_registry

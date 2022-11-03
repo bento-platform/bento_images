@@ -2,12 +2,13 @@ name: Build and push Bento DRS image
 on:
   workflow_dispatch:
 
-# TODO: implement
-# env:
+env:
+  TAG: v0.6.0
 
 jobs:
   build-push:
     runs-on: ubuntu-latest
+    timeout-minutes: 600 # 10hr limit?
 
     permissions:
       contents: read
@@ -37,9 +38,9 @@ jobs:
           images: |
             ghcr.io/bento-platform/bento_image
           tags: |
-            type=raw,value=drs-alpine-latest
-            type=raw,value=drs-alpine-{{date 'YYYY.MM.DD'}}
-            type=raw,value=drs-alpine-{{date 'YYYY.MM.DD.HHmm'}}
+            type=raw,value=drs-${{ env.TAG }}-alpine-latest
+            type=raw,value=drs-${{ env.TAG }}-alpine-{{date 'YYYY.MM.DD'}}
+            type=raw,value=drs-${{ env.TAG }}-alpine-{{date 'YYYY.MM.DD.HHmm'}}
 
       - name: Build and push drs-alpine image
         uses: docker/build-push-action@v3
@@ -47,8 +48,8 @@ jobs:
           push: true
           file: ./spec/drs/alpine.Dockerfile
           context: ./spec/drs
-          # build-args: |
-          #   VAR1=${{ env.VAR1 }}
+          build-args: |
+            TAG=${{ env.TAG }}
           tags: ${{ steps.meta-drs-alpine.outputs.tags }}
           labels: ${{ steps.meta-drs-alpine.outputs.labels }}
           platforms: linux/amd64,linux/arm64

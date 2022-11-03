@@ -4,8 +4,8 @@ FROM ghcr.io/bento-platform/bento_base_image:nuitka-alpine-latest as builder
 RUN mkdir /workspace
 WORKDIR /workspace
 
-# TODO: implement ARGS
-RUN git clone https://github.com/bento-platform/bento_drs --depth 1 -b v0.6.0
+ARG TAG
+RUN git clone https://github.com/bento-platform/bento_drs --depth 1 -b $TAG
 WORKDIR /workspace/bento_drs
 
 # - custom waitress wsgi "wrapper"
