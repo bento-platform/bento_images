@@ -37,9 +37,9 @@ jobs:
           images: |
             ghcr.io/bento-platform/bento_image
           tags: |
-            type=raw,value=service-registry-alpine-latest
-            type=raw,value=service-registry-alpine-{{date 'YYYY.MM.DD'}}
-            type=raw,value=service-registry-alpine-{{date 'YYYY.MM.DD.HHmm'}}
+            type=raw,value=service-registry-${{ env.TAG }}-alpine-latest
+            type=raw,value=service-registry-${{ env.TAG }}-alpine-{{date 'YYYY.MM.DD'}}
+            type=raw,value=service-registry-${{ env.TAG }}-alpine-{{date 'YYYY.MM.DD.HHmm'}}
 
       - name: Build and push service-registry-alpine image
         uses: docker/build-push-action@v3
