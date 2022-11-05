@@ -52,5 +52,5 @@ jobs:
             TAG=${{ env.TAG }}
           tags: ${{ steps.meta-drs-alpine.outputs.tags }}
           labels: ${{ steps.meta-drs-alpine.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64 # linux/amd64,
 

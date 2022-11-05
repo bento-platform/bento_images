@@ -52,5 +52,4 @@ jobs:
             TAG=${{ env.TAG }}
           tags: ${{ steps.meta-drop-box-alpine.outputs.tags }}
           labels: ${{ steps.meta-drop-box-alpine.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
-
+          platforms: linux/arm64 #linux/amd64,
