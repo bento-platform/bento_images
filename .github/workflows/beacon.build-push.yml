@@ -47,6 +47,7 @@ jobs:
         with:
           push: true
           file: ./spec/beacon/alpine.Dockerfile
+          context: ./spec/beacon
           build-args: |
             TAG=${{ env.TAG }}
           tags: ${{ steps.meta-beacon-alpine.outputs.tags }}
